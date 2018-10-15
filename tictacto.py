@@ -30,13 +30,13 @@ player2=''
 intro=False
 
 def playerX():
-    global  player1
-    global  player2
-    global intro
-    player1= 'x'
-    player2= 'o'
-    intro = False
-    print("x")
+      global  player1
+      global  player2
+      global intro
+      player1= 'x'
+      player2= 'o'
+      intro = False
+      print("x")
      
 def playerO():
       global  player1
@@ -49,37 +49,92 @@ def playerO():
      
 # Get user input and Display
 def get_input():
-      
-      pygame.draw.line(win, black, [200, 0], [200,610], 5)
-      pygame.draw.line(win, black, [400, 0], [400,610], 5)
-      pygame.draw.line(win, black, [0, 200], [610,200], 5)
-      pygame.draw.line(win, black, [0, 400], [610,400], 5)
-      
-      keys=pygame.key.get_pressed()
+      global X
+      global O
+      ram = True
+      mylist=[' ', ' ' , ' ' , ' ' , ' ' , ' ' ,' ' , ' ' , ' ']
+      print(f"loop 2{player1}")
+      alter=True
+      key_pressed=True
+      while ram:
+            print('loop3')
+            for event in pygame.event.get():
+                  if event.type == pygame.QUIT:
+                        
+                        pygame.quit()
+                        quit()
+            pygame.time.delay(100)
+            pygame.draw.line(win, black, [200, 0], [200,610], 5)
+            pygame.draw.line(win, black, [400, 0], [400,610], 5)
+            pygame.draw.line(win, black, [0, 200], [610,200], 5)
+            pygame.draw.line(win, black, [0, 400], [610,400], 5)
 
-      if keys[pygame.K_KP7]:
-          gameDisplay.blit(X,(x,y))
-      elif keys[pygame.K_KP8]:
-          gameDisplay.blit(X,(x+205,y))
-      elif keys[pygame.K_KP9]:
-          gameDisplay.blit(X,(x+410,y))
-      elif keys[pygame.K_KP4]:
-          gameDisplay.blit(X,(x,y+205))
-      elif keys[pygame.K_KP5]:
-          gameDisplay.blit(X,(x+205,y+205))
-      elif keys[pygame.K_KP6]:
-          gameDisplay.blit(X,(x+410,y+205))
-      elif keys[pygame.K_KP1]:
-          gameDisplay.blit(X,(x,y+400))
-      elif keys[pygame.K_KP2]:
-          gameDisplay.blit(X,(x+205,y+410))
-      elif keys[pygame.K_KP3]:
-          gameDisplay.blit(X,(x+410,y+410))
-      else:
-            pass
+            
+
+            if alter and key_pressed:
+                  key_pressed=False
+                  if player1=='x':
+                        flag=X
+                        player=player1
+                        alter=False
+                  else:
+                        flag=O
+                        player=player1
+                        alter=False
+            elif  not alter and key_pressed:
+                  key_pressed=False
+                  if player2=='x':
+                        flag=X
+                        player=player2
+                        alter=True
+                  else:
+                        flag=O
+                        player=player2
+                        alter=True
 
 
-      pygame.display.update()
+            keys=pygame.key.get_pressed()
+
+            if keys[pygame.K_KP7] and mylist[6]==" ":
+                  gameDisplay.blit(flag,(x,y))
+                  mylist[6]=player
+                  key_pressed= True
+            elif keys[pygame.K_KP8]and mylist[7]==" ":
+                  gameDisplay.blit(flag,(x+205,y))
+                  mylist[7]=player
+                  key_pressed= True
+            elif keys[pygame.K_KP9]and mylist[8]==" ":
+                  gameDisplay.blit(flag,(x+410,y))
+                  mylist[8]=player
+                  key_pressed= True
+            elif keys[pygame.K_KP4]and mylist[3]==" ":
+                  gameDisplay.blit(flag,(x,y+205))
+                  mylist[3]=player
+                  key_pressed= True
+            elif keys[pygame.K_KP5]and mylist[4]==" ":
+                  gameDisplay.blit(flag,(x+205,y+205))
+                  mylist[4]=player
+                  key_pressed= True
+            elif keys[pygame.K_KP6]and mylist[5]==" ":
+                  gameDisplay.blit(flag,(x+410,y+205))
+                  mylist[5]=player
+                  key_pressed= True
+            elif keys[pygame.K_KP1]and mylist[0]==" ":
+                  gameDisplay.blit(flag,(x,y+400))
+                  mylist[0]=player
+                  key_pressed= True
+            elif keys[pygame.K_KP2]and mylist[1]==" ":
+                  gameDisplay.blit(flag,(x+205,y+410))
+                  mylist[1]=player
+                  key_pressed= True
+            elif keys[pygame.K_KP3]and mylist[2]==" ":
+                  gameDisplay.blit(flag,(x+410,y+410))
+                  mylist[2]=player
+                  key_pressed= True
+            else:
+                  pass
+            pygame.display.update()
+            game(mylist)
 
       
 # game intro
@@ -132,19 +187,25 @@ def game_intro():
         pygame.display.update()
         clock.tick(7)
 
+#solution
+def game(mylist):
+      print(mylist)
+      
+
+
 # main loop
 run=True
 game_intro()
 win.fill((255,255,255))
+get_input()
+
 while run :
       pygame.time.delay(100)
+      print("loop 1")
       for event in pygame.event.get():
             if event.type == pygame.QUIT:
                   run=False
       
-      for _ in range(8):
-            print(_)
-            get_input()
       
       
       
