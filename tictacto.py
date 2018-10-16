@@ -27,8 +27,10 @@ y=0
 
 player1=''
 player2=''
-intro=False
-
+winner=''
+pygame.time.delay(100)
+run=True
+end=True      
 def playerX():
       global  player1
       global  player2
@@ -37,7 +39,6 @@ def playerX():
       player2= 'o'
       intro = False
       
-     
 def playerO():
       global  player1
       global  player2
@@ -46,9 +47,24 @@ def playerO():
       player2 = 'x'
       intro = False
       
+def run_false():
+      global run
+      global end
+      end=False
+      run=False
+      
+
+def run_true():
+      global run
+      global end
+      end=False
+      
+      
+      
      
 # Get user input and Display
 def get_input():
+      win.fill((255,255,255))
       global X
       global O
       ram = True
@@ -59,9 +75,8 @@ def get_input():
       while ram:
             for event in pygame.event.get():
                   if event.type == pygame.QUIT:
-                        
                         pygame.quit()
-                        quit()
+
             pygame.time.delay(10)
             
             pygame.draw.line(win, black, [200, 0], [200,610], 5)
@@ -72,7 +87,7 @@ def get_input():
             # since player 1 plays first
             if key_pressed:
                   key_pressed=False
-                  game(mylist,player)
+                  ram=game(mylist,player)
                   if alter :
                         if player1=='x':
                               flag=X 
@@ -137,6 +152,7 @@ def get_input():
 black = (0,0,0)
 white = (255,255,255)
 green= (0,225,0)
+red=(255,0,0)
 clock = pygame.time.Clock()
 
 def text_objects(text, font):
@@ -149,7 +165,7 @@ def button(msg,x,y,w,h,ic,ac,action=None):
     if x+w > mouse[0] > x and y+h > mouse[1] > y:
         pygame.draw.rect(gameDisplay, ac,(x,y,w,h))
 
-        if click[0] == 1 and action != None:
+        if click[0] == 1 and action != None :
             action()
     else:
         pygame.draw.rect(gameDisplay, ic,(x,y,w,h))
@@ -158,19 +174,20 @@ def button(msg,x,y,w,h,ic,ac,action=None):
     textSurf, textRect = text_objects(msg, smallText)
     textRect.center = ( (x+(w/2)), (y+(h/2)) )
     gameDisplay.blit(textSurf, textRect)
+    
 
 #game intro display
 def game_intro():
-      global intro
-      intro= True
+    global intro
+    intro= True
 
-      while intro:
-            
+    while intro:
+        
         for event in pygame.event.get():
             #print(event)
             if event.type == pygame.QUIT:
                 pygame.quit()
-                quit()
+                
                 
         gameDisplay.fill(white)
         largeText = pygame.font.SysFont("comicsansms",75)
@@ -184,9 +201,34 @@ def game_intro():
         pygame.display.update()
         clock.tick(7)
 
+# game ending page
+
+def game_end():
+      global end
+      end = True
+      while end:
+          for event in pygame.event.get():
+              if event.type == pygame.QUIT: pygame.quit()
+                            
+          gameDisplay.fill(white)
+          largeText = pygame.font.SysFont("comicsansms",65)
+          TextSurf, TextRect = text_objects(f"{winner} won the match !!", largeText)
+          TextRect.center = ((display_width/2),(display_height/2))
+          gameDisplay.blit(TextSurf, TextRect)
+          button("<-Restart",135,450,100,50,white,green,run_true)
+          button("Quit->",385,450,100,50,white,red,run_false)
+          pygame.time.delay(100)
+          pygame.display.update()
+          clock.tick(7)
+          
+       
+        
+
+
 #solution     
 def game(mylist1,player):
-      print(f"loop 4{player} {mylist1}")
+      global winner
+      #print(f"loop 4{player} {mylist1}")
       if mylist1.count(player)>2:
             win=[[0,1,2],[2,5,8],[6,7,8],[0,3,6],[0,4,8],[2,4,6],[3,4,5],[1,4,7]]
             indices = [i for i, x in enumerate(mylist1) if x == player]
@@ -199,13 +241,22 @@ def game(mylist1,player):
                         except ValueError:
                                  pass
                   if counter==3:
-                        print(f"{player} won the match !!")
+                        winner=player
                         return False
-      
-                
+                  counter=0
+      return True
+
 # main loop
-run=True
-game_intro()
-win.fill((255,255,255))
-get_input()     
-pygame.quit()      
+
+while run:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+                  pygame.quit()
+
+    game_intro()
+    get_input()
+    game_end()
+    print(run)
+
+    
+pygame.quit()
