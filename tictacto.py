@@ -30,7 +30,8 @@ player2=''
 winner=''
 pygame.time.delay(100)
 run=True
-end=True      
+end=True
+draw=False
 def playerX():
       global  player1
       global  player2
@@ -220,14 +221,35 @@ def game_end():
           pygame.time.delay(100)
           pygame.display.update()
           clock.tick(7)
-          
-       
+                 
         
+# game draw page
 
+def game_draw():
+      global draw
+      global end
+      end = True
+      draw=False
+      while end:
+          for event in pygame.event.get():
+              if event.type == pygame.QUIT: pygame.quit()
+                            
+          gameDisplay.fill(white)
+          largeText = pygame.font.SysFont("comicsansms",63)
+          TextSurf, TextRect = text_objects(f"Match is a Draw!!!", largeText)
+          TextRect.center = ((display_width/2),(display_height/2))
+          gameDisplay.blit(TextSurf, TextRect)
+          button("<-Restart",135,450,100,50,white,green,run_true)
+          button("Quit->",385,450,100,50,white,red,run_false)
+          pygame.time.delay(100)
+          pygame.display.update()
+          clock.tick(7)
+          
 
 #solution     
 def game(mylist1,player):
       global winner
+      global draw
       #print(f"loop 4{player} {mylist1}")
       if mylist1.count(player)>2:
             win=[[0,1,2],[2,5,8],[6,7,8],[0,3,6],[0,4,8],[2,4,6],[3,4,5],[1,4,7]]
@@ -241,10 +263,15 @@ def game(mylist1,player):
                         except ValueError:
                                  pass
                   if counter==3:
-                        winner=player
-                        return False
+                      winner=player
+                      return False
                   counter=0
+     
+      if mylist1.count(player)==5:
+          draw=True
+          return False
       return True
+          
 
 # main loop
 
@@ -255,8 +282,11 @@ while run:
 
     game_intro()
     get_input()
-    game_end()
-    print(run)
+    if draw:
+        game_draw()
+    else:
+        game_end()
+    
 
     
 pygame.quit()
