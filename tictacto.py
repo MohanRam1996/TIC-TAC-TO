@@ -24,7 +24,7 @@ gameDisplay = pygame.display.set_mode((display_width,display_height))
 #coordinates
 x=0
 y=0
-
+i=0
 player1=''
 player2=''
 winner=''
@@ -190,7 +190,7 @@ def game_intro():
                 pygame.quit()
                 
                 
-        gameDisplay.fill(white)
+        win.fill(white)
         largeText = pygame.font.SysFont("comicsansms",75)
         TextSurf, TextRect = text_objects("Choose X or O !", largeText)
         TextRect.center = ((display_width/2),(display_height/2))
@@ -211,7 +211,7 @@ def game_end():
           for event in pygame.event.get():
               if event.type == pygame.QUIT: pygame.quit()
                             
-          gameDisplay.fill(white)
+          win.fill(white)
           largeText = pygame.font.SysFont("comicsansms",65)
           TextSurf, TextRect = text_objects(f"{winner} won the match !!", largeText)
           TextRect.center = ((display_width/2),(display_height/2))
@@ -234,7 +234,7 @@ def game_draw():
           for event in pygame.event.get():
               if event.type == pygame.QUIT: pygame.quit()
                             
-          gameDisplay.fill(white)
+          win.fill(white)
           largeText = pygame.font.SysFont("comicsansms",63)
           TextSurf, TextRect = text_objects(f"Match is a Draw!!!", largeText)
           TextRect.center = ((display_width/2),(display_height/2))
@@ -244,6 +244,36 @@ def game_draw():
           pygame.time.delay(100)
           pygame.display.update()
           clock.tick(7)
+
+# Draw Line
+
+def line(i):
+      line = True
+      while line:
+          for event in pygame.event.get():
+              if event.type == pygame.QUIT: pygame.quit()
+
+          if  i==0:
+              pygame.draw.line(win, black, [50,500], [550,500], 10)
+          elif i==1:
+              pygame.draw.line(win, black, [500,100], [500,500], 10)
+          elif i==2:
+              pygame.draw.line(win, black, [50,100], [550,100], 10)
+          elif i==3:
+              pygame.draw.line(win, black, [100,100], [100,500], 10)
+          elif i==4:
+              pygame.draw.line(win, black, [500,100], [100,500], 10)
+          elif i==5:
+              pygame.draw.line(win, black, [100,100], [500,500], 10)
+          elif i==6:
+              pygame.draw.line(win, black, [50,300], [500,300], 10)
+          else:
+              pygame.draw.line(win, black, [300,100], [300,500], 10)
+          
+          pygame.display.update()
+          pygame.time.delay(1000)
+          clock.tick(7)
+          line=False
           
 
 #solution     
@@ -255,7 +285,7 @@ def game(mylist1,player):
             win=[[0,1,2],[2,5,8],[6,7,8],[0,3,6],[0,4,8],[2,4,6],[3,4,5],[1,4,7]]
             indices = [i for i, x in enumerate(mylist1) if x == player]
             counter=0
-            for n in win: 
+            for iloop,n in enumerate(win): 
                   for item in n:
                         try:
                               indices.index(item)
@@ -263,6 +293,8 @@ def game(mylist1,player):
                         except ValueError:
                                  pass
                   if counter==3:
+                      global i
+                      i=iloop
                       winner=player
                       return False
                   counter=0
@@ -285,6 +317,7 @@ while run:
     if draw:
         game_draw()
     else:
+        line(i)
         game_end()
     
 
