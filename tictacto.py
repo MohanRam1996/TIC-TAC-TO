@@ -36,7 +36,7 @@ def playerX():
       player1= 'x'
       player2= 'o'
       intro = False
-      print("x")
+      
      
 def playerO():
       global  player1
@@ -45,7 +45,7 @@ def playerO():
       player1 = 'o'
       player2 = 'x'
       intro = False
-      print("o")
+      
      
 # Get user input and Display
 def get_input():
@@ -53,46 +53,43 @@ def get_input():
       global O
       ram = True
       mylist=[' ', ' ' , ' ' , ' ' , ' ' , ' ' ,' ' , ' ' , ' ']
-      print(f"loop 2{player1}")
       alter=True
       key_pressed=True
+      player=player1
       while ram:
-            print('loop3')
             for event in pygame.event.get():
                   if event.type == pygame.QUIT:
                         
                         pygame.quit()
                         quit()
-            pygame.time.delay(100)
+            pygame.time.delay(10)
+            
             pygame.draw.line(win, black, [200, 0], [200,610], 5)
             pygame.draw.line(win, black, [400, 0], [400,610], 5)
             pygame.draw.line(win, black, [0, 200], [610,200], 5)
             pygame.draw.line(win, black, [0, 400], [610,400], 5)
-
-            
-
-            if alter and key_pressed:
+            # for the first time when this loop is executing key_pressed and alter is true
+            # since player 1 plays first
+            if key_pressed:
                   key_pressed=False
-                  if player1=='x':
-                        flag=X
+                  game(mylist,player)
+                  if alter :
+                        if player1=='x':
+                              flag=X 
+                        else:
+                              flag=O
                         player=player1
                         alter=False
+                        
                   else:
-                        flag=O
-                        player=player1
-                        alter=False
-            elif  not alter and key_pressed:
-                  key_pressed=False
-                  if player2=='x':
-                        flag=X
-                        player=player2
-                        alter=True
-                  else:
-                        flag=O
+                        if player2=='x':
+                              flag=X
+                        else:
+                              flag=O
                         player=player2
                         alter=True
 
-
+            #print(f'loop3{player}')
             keys=pygame.key.get_pressed()
 
             if keys[pygame.K_KP7] and mylist[6]==" ":
@@ -134,10 +131,9 @@ def get_input():
             else:
                   pass
             pygame.display.update()
-            game(mylist)
 
       
-# game intro
+# game intro prerequestie
 black = (0,0,0)
 white = (255,255,255)
 green= (0,225,0)
@@ -163,6 +159,7 @@ def button(msg,x,y,w,h,ic,ac,action=None):
     textRect.center = ( (x+(w/2)), (y+(h/2)) )
     gameDisplay.blit(textSurf, textRect)
 
+#game intro display
 def game_intro():
       global intro
       intro= True
@@ -187,27 +184,28 @@ def game_intro():
         pygame.display.update()
         clock.tick(7)
 
-#solution
-def game(mylist):
-      print(mylist)
+#solution     
+def game(mylist1,player):
+      print(f"loop 4{player} {mylist1}")
+      if mylist1.count(player)>2:
+            win=[[0,1,2],[2,5,8],[6,7,8],[0,3,6],[0,4,8],[2,4,6],[3,4,5],[1,4,7]]
+            indices = [i for i, x in enumerate(mylist1) if x == player]
+            counter=0
+            for n in win: 
+                  for item in n:
+                        try:
+                              indices.index(item)
+                              counter+=1
+                        except ValueError:
+                                 pass
+                  if counter==3:
+                        print(f"{player} won the match !!")
+                        return False
       
-
-
+                
 # main loop
 run=True
 game_intro()
 win.fill((255,255,255))
-get_input()
-
-while run :
-      pygame.time.delay(100)
-      print("loop 1")
-      for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                  run=False
-      
-      
-      
-      
-      
+get_input()     
 pygame.quit()      
