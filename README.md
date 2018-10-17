@@ -2,7 +2,7 @@
 
 This is a TIC TAC TO game
 playable on windows or mac or linux provided you have python and pygame installed on your computer 
-I have attached a portable version of python and pygame for you guys as well
+you can download a portable version of python and pygame in just one click - https://goo.gl/wvVkeC
 
 INSTRUCTIONS:
 
