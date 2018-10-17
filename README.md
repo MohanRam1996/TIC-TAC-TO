@@ -17,3 +17,6 @@ This is part of my venture to understand python and programming in gernal
 I have published this as open to all so go ahead and modify and add any features if you want 
 I would love to see what the world can do!!
 
+![](pic1.png)
+![](pic2.png)
+![](pic3.png)
