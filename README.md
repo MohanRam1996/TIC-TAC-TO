@@ -5,6 +5,7 @@ playable on windows or mac or linux provided you have python and pygame installe
 I have attached a portable version of python and pygame for you guys as well
 
 INSTRUCTIONS:
+
      1. Select which symbol as you want [x or y]
      2. By default the player 2 will be assigned the opposite
      3. You can use the numpad on your keyboard to enter your choice
