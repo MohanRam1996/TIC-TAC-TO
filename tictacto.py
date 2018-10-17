@@ -295,7 +295,7 @@ def game(mylist1,player):
                   if counter==3:
                       global i
                       i=iloop
-                      winner=player
+                      winner=player.upper()
                       return False
                   counter=0
      
